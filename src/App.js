@@ -1,23 +1,38 @@
-import logo from './logo.svg';
 import './App.css';
+import heroesID from './heroes.json'
+import {useState} from 'react'
 
 function App() {
+  const [input, setInput] = useState("")
+  const [tempid, setIDs] = useState("")
+  const [results, setResults] = useState([])
+
+  const fetchData = (value) => {
+    const results = heroesID.heroes.filter(hero => {
+      return value && hero.name.toLowerCase().includes(value)
+    })
+    setResults(results)
+  }
+
+  const handleChange = (value) => {
+    setInput({name: value})
+    fetchData(value)
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+        <div className="result-container">
+          <input type="text" value={input.name} onChange={(e) => handleChange(e.target.value)}/>
+          {
+            results.map(({name, id}, index) => {
+              return <button onClick={result => setIDs(tempid + ", " + id)}>
+                {name}
+              </button>
+            })
+          }
+        </div>
+        <p>{tempid}</p>
+      <button>Predict Duration</button>
     </div>
   );
 }
