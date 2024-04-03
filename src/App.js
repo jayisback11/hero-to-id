@@ -25,14 +25,21 @@ function App() {
           <input type="text" value={input.name} onChange={(e) => handleChange(e.target.value)}/>
           {
             results.map(({name, id}, index) => {
-              return <button onClick={result => setIDs(tempid + ", " + id)}>
+              return <button onClick={result => {
+                if (tempid.length === 0) {
+                  setIDs(id)
+                }
+                else {
+                  setIDs(tempid + ", " + id)
+                }
+              }}>
                 {name}
               </button>
             })
           }
         </div>
         <p>{tempid}</p>
-      <button>Predict Duration</button>
+        <button onClick={() => {navigator.clipboard.writeText('[' + tempid + ']')}}>COPY</button>
     </div>
   );
 }
